@@ -12,7 +12,6 @@ export default class MovieList extends Component {
     super(props);
     this.onChangeSearchTitle = this.onChangeSearchTitle.bind(this);
     this.retrieveMovies = this.retrieveMovies.bind(this);
-    this.refreshList = this.refreshList.bind(this);
     this.setActiveMovie = this.setActiveMovie.bind(this);
     this.handlePageChange = this.handlePageChange.bind(this);
     this.handlePageSizeChange = this.handlePageSizeChange.bind(this);
@@ -83,14 +82,6 @@ export default class MovieList extends Component {
       .catch((e) => {
         console.log(e);
       });
-  }
-
-  refreshList() {
-    this.retrieveMovies();
-    this.setState({
-      selectedMovie: null,
-      currentIndex: -1,
-    });
   }
 
   setActiveMovie(movie, index) {
