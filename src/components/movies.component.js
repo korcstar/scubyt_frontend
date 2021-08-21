@@ -43,16 +43,40 @@ export default class MovieList extends Component {
 
     this.setState({
       searchTitle: searchTitle,
+    },
+    () => {
+      this.retrieveMovies();
     });
-
-    this.retrieveMovies();
   }
-
+  handlePageChange(event, value) {
+    this.setState(
+      {
+        page: value,
+        currentIndex: -1,
+      },
+      () => {
+        this.retrieveMovies();
+      }
+    );
+  }
+  handlePageSizeChange(event) {
+    this.setState(
+      {
+        pageSize: event.target.value,
+        page: 1
+      },
+      () => {
+        this.retrieveMovies();
+      }
+    );
+  }
   getRequestParams(searchTitle, page, pageSize) {
     let params = {};
 
     if (searchTitle) {
       params["title"] = searchTitle;
+    } else {
+      params["title"] = "";
     }
 
     if (page) {
@@ -115,30 +139,6 @@ export default class MovieList extends Component {
     this.setState({
       comments: currentComments,
     });
-  }
-
-  handlePageChange(event, value) {
-    this.setState(
-      {
-        page: value,
-        currentIndex: -1,
-      },
-      () => {
-        this.retrieveMovies();
-      }
-    );
-  }
-
-  handlePageSizeChange(event) {
-    this.setState(
-      {
-        pageSize: event.target.value,
-        page: 1
-      },
-      () => {
-        this.retrieveMovies();
-      }
-    );
   }
 
   render() {
