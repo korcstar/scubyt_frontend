@@ -16,8 +16,7 @@ export default class MovieList extends Component {
     this.setActiveMovie = this.setActiveMovie.bind(this);
     this.handlePageChange = this.handlePageChange.bind(this);
     this.handlePageSizeChange = this.handlePageSizeChange.bind(this);
-
-    this.submitComment = this.submitComment.bind(this);
+    this.addNewComment = this.addNewComment.bind(this);
 
     this.state = {
       movies: [],
@@ -118,41 +117,13 @@ export default class MovieList extends Component {
       });
   }
 
-  submitComment(name, comment){
-    const movieID = this.state.selectedMovie.id;
-    const params = {
-      name: name,
-      comment: comment
-    };
-    CommentService.create(movieID, params)
-      .then((response) => {
-        const { result, message, comment } = response.data;
-        if (result){
-          const oldComments = this.state.comments;
-          params.cid = comment.cid;
-          params.movie_id = comment.movie_id;
+  addNewComment(newComment) {
+    const currentComments = this.state.comments;
+    currentComments.push(newComment);
 
-          oldComments.push(params);
-          this.setState({
-            comments: oldComments,
-          });
-        }
-        else {
-          /*
-          this.setState({
-            message: message
-          });*/
-        }
-        return message;
-      })
-      .catch((e) => {
-        /*
-        this.setState({
-          message: "some error occurred while adding the comment.",
-        });
-        */
-        return "some error occurred while adding the comment.";
-      });
+    this.setState({
+      comments: currentComments,
+    });
   }
 
   handlePageChange(event, value) {
@@ -242,8 +213,8 @@ export default class MovieList extends Component {
               <hr className="wd100p"/>
               <CommentForm
                 ref={(instance)=>{this.commentForm = instance}}
-                //message={this.state.message}
-                submitComment={this.submitComment}
+                selectedMovieID={selectedMovie.id}
+                addNewComment={this.addNewComment}
               />
             </div>
           ) : (
