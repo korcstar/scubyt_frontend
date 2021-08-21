@@ -18,7 +18,8 @@ export default class CommentForm extends Component {
     clearForm() {
         this.setState({
             commentName: "",
-            commentText: ""
+            commentText: "",
+            message: ""
         })
     }
     onChangeCommentName(e) {
@@ -48,10 +49,7 @@ export default class CommentForm extends Component {
                     if(this.props.addNewComment) {
                         this.props.addNewComment(params);
                     }
-
-                    this.setState({
-                        message: ""
-                    });
+                    this.clearForm();
                 }
                 else {
                     this.setState({
